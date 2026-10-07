@@ -1,9 +1,10 @@
 # Roadmap
 
-- [ ] Criar identidade visual e estrutura partilhada
+- [ ] Criar identidade visual e estrutura partilhada (prioridade atual)
 - [ ] Implementar página inicial completa
 - [ ] Implementar páginas institucionais e comerciais
-- [ ] Implementar páginas das oito empresas e produtos
+- [ ] Implementar páginas institucionais e das oito empresas (prioridade atual)
+- [ ] Implementar páginas de produtos
 - [ ] Implementar pesquisa, filtros e carrinho de cotação
 - [ ] Ativar dados persistentes, formulários e área administrativa
 - [ ] Adicionar SEO, sitemap e robots
