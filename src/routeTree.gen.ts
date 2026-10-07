@@ -10,33 +10,127 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContactosRouteImport } from './routes/contactos'
+import { Route as EmpresasRouteImport } from './routes/empresas'
+import { Route as ProdutosRouteImport } from './routes/produtos'
+import { Route as SobreNosRouteImport } from './routes/sobre-nos'
+import { Route as SolicitarCotacaoRouteImport } from './routes/solicitar-cotacao'
+import { Route as SolucoesRouteImport } from './routes/solucoes'
+import { Route as EmpresasEmpresaRouteImport } from './routes/empresas.$empresa'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactosRoute = ContactosRouteImport.update({
+  id: '/contactos',
+  path: '/contactos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmpresasRoute = EmpresasRouteImport.update({
+  id: '/empresas',
+  path: '/empresas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProdutosRoute = ProdutosRouteImport.update({
+  id: '/produtos',
+  path: '/produtos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreNosRoute = SobreNosRouteImport.update({
+  id: '/sobre-nos',
+  path: '/sobre-nos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolicitarCotacaoRoute = SolicitarCotacaoRouteImport.update({
+  id: '/solicitar-cotacao',
+  path: '/solicitar-cotacao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolucoesRoute = SolucoesRouteImport.update({
+  id: '/solucoes',
+  path: '/solucoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmpresasEmpresaRoute = EmpresasEmpresaRouteImport.update({
+  id: '/$empresa',
+  path: '/$empresa',
+  getParentRoute: () => EmpresasRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contactos': typeof ContactosRoute
+  '/empresas': typeof EmpresasRouteWithChildren
+  '/produtos': typeof ProdutosRoute
+  '/sobre-nos': typeof SobreNosRoute
+  '/solicitar-cotacao': typeof SolicitarCotacaoRoute
+  '/solucoes': typeof SolucoesRoute
+  '/empresas/$empresa': typeof EmpresasEmpresaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contactos': typeof ContactosRoute
+  '/empresas': typeof EmpresasRouteWithChildren
+  '/produtos': typeof ProdutosRoute
+  '/sobre-nos': typeof SobreNosRoute
+  '/solicitar-cotacao': typeof SolicitarCotacaoRoute
+  '/solucoes': typeof SolucoesRoute
+  '/empresas/$empresa': typeof EmpresasEmpresaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contactos': typeof ContactosRoute
+  '/empresas': typeof EmpresasRouteWithChildren
+  '/produtos': typeof ProdutosRoute
+  '/sobre-nos': typeof SobreNosRoute
+  '/solicitar-cotacao': typeof SolicitarCotacaoRoute
+  '/solucoes': typeof SolucoesRoute
+  '/empresas/$empresa': typeof EmpresasEmpresaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/contactos'
+    | '/empresas'
+    | '/produtos'
+    | '/sobre-nos'
+    | '/solicitar-cotacao'
+    | '/solucoes'
+    | '/empresas/$empresa'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/contactos'
+    | '/empresas'
+    | '/produtos'
+    | '/sobre-nos'
+    | '/solicitar-cotacao'
+    | '/solucoes'
+    | '/empresas/$empresa'
+  id:
+    | '__root__'
+    | '/'
+    | '/contactos'
+    | '/empresas'
+    | '/produtos'
+    | '/sobre-nos'
+    | '/solicitar-cotacao'
+    | '/solucoes'
+    | '/empresas/$empresa'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactosRoute: typeof ContactosRoute
+  EmpresasRoute: typeof EmpresasRouteWithChildren
+  ProdutosRoute: typeof ProdutosRoute
+  SobreNosRoute: typeof SobreNosRoute
+  SolicitarCotacaoRoute: typeof SolicitarCotacaoRoute
+  SolucoesRoute: typeof SolucoesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +142,78 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contactos': {
+      id: '/contactos'
+      path: '/contactos'
+      fullPath: '/contactos'
+      preLoaderRoute: typeof ContactosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/empresas': {
+      id: '/empresas'
+      path: '/empresas'
+      fullPath: '/empresas'
+      preLoaderRoute: typeof EmpresasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/produtos': {
+      id: '/produtos'
+      path: '/produtos'
+      fullPath: '/produtos'
+      preLoaderRoute: typeof ProdutosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre-nos': {
+      id: '/sobre-nos'
+      path: '/sobre-nos'
+      fullPath: '/sobre-nos'
+      preLoaderRoute: typeof SobreNosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solicitar-cotacao': {
+      id: '/solicitar-cotacao'
+      path: '/solicitar-cotacao'
+      fullPath: '/solicitar-cotacao'
+      preLoaderRoute: typeof SolicitarCotacaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solucoes': {
+      id: '/solucoes'
+      path: '/solucoes'
+      fullPath: '/solucoes'
+      preLoaderRoute: typeof SolucoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/empresas/$empresa': {
+      id: '/empresas/$empresa'
+      path: '/$empresa'
+      fullPath: '/empresas/$empresa'
+      preLoaderRoute: typeof EmpresasEmpresaRouteImport
+      parentRoute: typeof EmpresasRoute
+    }
   }
 }
 
+interface EmpresasRouteChildren {
+  EmpresasEmpresaRoute: typeof EmpresasEmpresaRoute
+}
+
+const EmpresasRouteChildren: EmpresasRouteChildren = {
+  EmpresasEmpresaRoute: EmpresasEmpresaRoute,
+}
+
+const EmpresasRouteWithChildren = EmpresasRoute._addFileChildren(
+  EmpresasRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactosRoute: ContactosRoute,
+  EmpresasRoute: EmpresasRouteWithChildren,
+  ProdutosRoute: ProdutosRoute,
+  SobreNosRoute: SobreNosRoute,
+  SolicitarCotacaoRoute: SolicitarCotacaoRoute,
+  SolucoesRoute: SolucoesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
