@@ -11,7 +11,7 @@ const nav = [
 
 export function Brand({ inverse = false }: { inverse?: boolean }) {
   return <Link to="/" aria-label="Global Trade & Services, Lda — início" className="flex max-w-[280px] shrink-0 items-center gap-3">
-    <span className={"grid size-10 shrink-0 place-items-center border-2 font-display text-sm font-bold " + (inverse ? "border-primary-foreground text-primary-foreground" : "border-primary text-primary")}>GT</span>
+    
     <span className="leading-tight"><strong className="block font-display text-[13px] font-extrabold sm:text-[14px]">GLOBAL TRADE & SERVICES</strong><span className={"mt-1 block text-[10px] font-semibold tracking-[0.16em] " + (inverse ? "text-primary-foreground/65" : "text-muted-foreground")}>LDA · MOÇAMBIQUE</span></span>
   </Link>;
 }
