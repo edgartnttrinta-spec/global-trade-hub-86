@@ -3,7 +3,8 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 function corsHeaders(origin: string | null) {
   const configured = Deno.env.get("ALLOWED_ORIGIN") ?? "https://www.globaltrade.co.mz";
-  const allowed = new Set([configured, "https://www.globaltrade.co.mz", "https://globaltrade.co.mz", "http://localhost:5173"]);
+  const configuredOrigins = (Deno.env.get("ALLOWED_ORIGINS") ?? "").split(",").map((item) => item.trim()).filter(Boolean);
+  const allowed = new Set([configured, "https://www.globaltrade.co.mz", "https://globaltrade.co.mz", "http://localhost:5173", ...configuredOrigins]);
   return {
     "Access-Control-Allow-Origin": origin && allowed.has(origin) ? origin : configured,
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -27,7 +28,8 @@ Deno.serve(async (req: Request) => {
   if (req.method !== "POST") return response({ error: "Method not allowed" }, 405, origin);
 
   const allowedOrigin = Deno.env.get("ALLOWED_ORIGIN") ?? "https://www.globaltrade.co.mz";
-  if (origin && origin !== allowedOrigin && origin !== "https://www.globaltrade.co.mz" && origin !== "https://globaltrade.co.mz" && origin !== "http://localhost:5173") {
+  const allowedOrigins = new Set([allowedOrigin, "https://www.globaltrade.co.mz", "https://globaltrade.co.mz", "http://localhost:5173", ...(Deno.env.get("ALLOWED_ORIGINS") ?? "").split(",").map((item) => item.trim()).filter(Boolean)]);
+  if (origin && !allowedOrigins.has(origin)) {
     return response({ error: "Origin not allowed" }, 403, origin);
   }
 
