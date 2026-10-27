@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Globe2, Menu, Search, X } from "lucide-react";
+import { ArrowLeft, Globe2, Menu, Search, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -17,6 +17,13 @@ export function Brand({ inverse = false }: { inverse?: boolean }) {
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const goBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      window.history.back();
+    } else if (typeof window !== "undefined") {
+      window.location.assign("/");
+    }
+  };
   return <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur">
     <div className="border-b border-border/60 bg-primary text-primary-foreground">
       <div className="mx-auto flex h-8 max-w-7xl items-center justify-between px-5 text-[11px] font-medium sm:px-8">
@@ -26,9 +33,10 @@ export function Header() {
     </div>
     <div className="mx-auto grid h-[72px] max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:px-8 lg:flex">
       <Brand />
+      <Button type="button" variant="ghost" size="sm" onClick={goBack} className="hidden shrink-0 items-center gap-2 lg:inline-flex" aria-label="Voltar à página anterior"><ArrowLeft className="size-4" /> Voltar</Button>
       <nav className="ml-auto hidden items-center gap-6 lg:flex">{nav.map(([to,label]) => <Link key={to} to={to} activeOptions={{ exact: to === "/" }} className="text-[12px] font-bold uppercase text-foreground/72 transition-colors hover:text-primary" activeProps={{className:"text-primary"}}>{label}</Link>)}</nav>
       <div className="hidden items-center gap-2 lg:flex"><Button asChild size="icon" variant="ghost"><Link to="/produtos" aria-label="Pesquisar"><Search /></Link></Button><Button asChild><Link to="/solicitar-cotacao" search={{ empresa: undefined }}>Solicitar cotação</Link></Button></div>
-      <Button className="lg:hidden" size="icon" variant="ghost" aria-label="Abrir menu" onClick={() => setOpen(true)}><Menu /></Button>
+      <div className="flex items-center gap-1 lg:hidden"><Button type="button" size="icon" variant="ghost" aria-label="Voltar à página anterior" onClick={goBack}><ArrowLeft className="size-5" /></Button><Button size="icon" variant="ghost" aria-label="Abrir menu" onClick={() => setOpen(true)}><Menu /></Button></div>
     </div>
     {open && <div className="fixed inset-0 z-50 min-h-screen bg-primary p-6 text-primary-foreground lg:hidden"><div className="flex items-center justify-between"><Brand inverse/><Button size="icon" variant="ghost" className="text-primary-foreground" aria-label="Fechar menu" onClick={() => setOpen(false)}><X/></Button></div><nav className="mt-16 flex flex-col">{nav.map(([to,label]) => <Link key={to} to={to} onClick={() => setOpen(false)} className="border-b border-primary-foreground/15 py-5 font-display text-2xl">{label}</Link>)}</nav><Button asChild className="mt-8 w-full bg-accent text-accent-foreground"><Link to="/solicitar-cotacao" search={{ empresa: undefined }} onClick={() => setOpen(false)}>Solicitar cotação</Link></Button></div>}
   </header>;
