@@ -45,25 +45,38 @@ function QuotePage() {
 
     setIsSubmitting(true);
     try {
-      const { error } = await supabase.from("quote_requests").insert({
-        reference_code: ref,
-        contact_name: String(data.get("nome") || "").trim(),
-        company_name: String(data.get("empresaCliente") || "").trim() || null,
-        email: String(data.get("email") || "").trim(),
-        phone: String(data.get("telefone") || "").trim(),
-        country: String(data.get("pais") || "Moçambique").trim() || "Moçambique",
-        brand_slug: selected.slug,
-        product_name: String(data.get("produto") || "").trim(),
-        manufacturer: String(data.get("fabricante") || "").trim() || null,
-        model_reference: String(data.get("modelo") || "").trim() || null,
-        quantity: rawQuantity ? Number(rawQuantity) : null,
-        desired_date: rawDate || null,
-        details: String(data.get("detalhes") || "").trim() || null,
+      const { data: result, error } = await supabase.functions.invoke("notify-quote", {
+        body: {
+          reference_code: ref,
+          contact_name: String(data.get("nome") || "").trim(),
+          company_name: String(data.get("empresaCliente") || "").trim() || null,
+          email: String(data.get("email") || "").trim(),
+          phone: String(data.get("telefone") || "").trim(),
+          country: String(data.get("pais") || "Moçambique").trim() || "Moçambique",
+          brand_slug: selected.slug,
+          product_name: String(data.get("produto") || "").trim(),
+          manufacturer: String(data.get("fabricante") || "").trim() || null,
+          model_reference: String(data.get("modelo") || "").trim() || null,
+          quantity: rawQuantity ? Number(rawQuantity) : null,
+          desired_date: rawDate || null,
+          details: String(data.get("detalhes") || "").trim() || null,
+        },
       });
 
-      if (error) throw error;
-      setReference(ref);
-      setNotice("O pedido foi registado com sucesso. Guarde a referência acima para acompanhamento. A notificação por e-mail será configurada numa etapa separada.");
+      if (error || !result?.saved) throw error ?? new Error("Pedido não confirmado");
+      setReference(result.reference_code || ref);
+      const sent = result.notifications ?? {};
+      const pending = result.notification_pending_setup ?? [];
+      if (sent.email && sent.whatsapp) {
+        setNotice("Pedido registado. As notificações por e-mail e WhatsApp foram enviadas.");
+      } else {
+        const missing = [
+          !sent.email ? "e-mail" : "",
+          !sent.whatsapp ? "WhatsApp" : "",
+        ].filter(Boolean).join(" e ");
+        setNotice("Pedido registado com sucesso. A notificação para " + missing + " ainda não está configurada ou não foi confirmada. A equipa técnica deverá concluir a configuração dos serviços de envio.");
+        console.warn("Quote notification setup pending:", pending);
+      }
       form.reset();
     } catch {
       setErrorMessage("Não foi possível registar o pedido neste momento. Verifique a ligação à internet e tente novamente ou contacte comercial@globaltrade.co.mz.");
@@ -92,7 +105,7 @@ function QuotePage() {
           <label className="text-sm font-semibold">Prazo pretendido<Input name="prazo" type="date" className="mt-2"/></label>
           <label className="text-sm font-semibold sm:col-span-2">Especificações técnicas e observações<Textarea name="detalhes" maxLength={10000} className="mt-2 min-h-36" placeholder="Descreva requisitos, dimensões, compatibilidade ou outros detalhes relevantes."/></label>
           <div className="sm:col-span-2 flex gap-3 border border-dashed border-border bg-surface p-4 text-sm leading-6 text-muted-foreground"><Paperclip className="mt-1 size-4 shrink-0"/><p><strong className="text-foreground">Anexos:</strong> o carregamento seguro de ficheiros será ligado à área autenticada. Por agora, não envie ficheiros por este formulário; se necessário, contacte comercial@globaltrade.co.mz.</p></div>
-          <p className="text-xs leading-5 text-muted-foreground sm:col-span-2">Os campos assinalados com * são obrigatórios. Ao submeter, os dados são guardados na base de dados da Global Trade & Services no Supabase. A notificação automática por e-mail ainda não está configurada.</p>
+          <p className="text-xs leading-5 text-muted-foreground sm:col-span-2">Os campos assinalados com * são obrigatórios. O pedido é guardado no Supabase e o sistema tenta enviar notificações por e-mail e WhatsApp.</p>
           <Button type="submit" size="lg" disabled={isSubmitting || !isSupabaseConfigured} className="sm:col-span-2 sm:justify-self-start"><Mail className="size-4"/>{isSubmitting ? "A registar pedido..." : "Enviar pedido de cotação"}</Button>
           {!isSupabaseConfigured && <p className="sm:col-span-2 text-sm text-muted-foreground">A ligação ao Supabase precisa de ser configurada no ambiente de publicação.</p>}
         </form>
