@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactosRouteImport } from './routes/contactos'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as EmpresasRouteImport } from './routes/empresas'
 import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as SobreNosRouteImport } from './routes/sobre-nos'
@@ -26,6 +27,11 @@ const IndexRoute = IndexRouteImport.update({
 const ContactosRoute = ContactosRouteImport.update({
   id: '/contactos',
   path: '/contactos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EmpresasRoute = EmpresasRouteImport.update({
@@ -62,6 +68,9 @@ const EmpresasEmpresaRoute = EmpresasEmpresaRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contactos': typeof ContactosRoute
+  '/privacidade': typeof PrivacidadeRoute
+  '/privacidade': typeof PrivacidadeRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/empresas': typeof EmpresasRouteWithChildren
   '/produtos': typeof ProdutosRoute
   '/sobre-nos': typeof SobreNosRoute
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contactos'
+    | '/privacidade'
     | '/empresas'
     | '/produtos'
     | '/sobre-nos'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactosRoute: typeof ContactosRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
   EmpresasRoute: typeof EmpresasRouteWithChildren
   ProdutosRoute: typeof ProdutosRoute
   SobreNosRoute: typeof SobreNosRoute
@@ -147,6 +158,13 @@ declare module '@tanstack/react-router' {
       path: '/contactos'
       fullPath: '/contactos'
       preLoaderRoute: typeof ContactosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/empresas': {
@@ -209,6 +227,7 @@ const EmpresasRouteWithChildren = EmpresasRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactosRoute: ContactosRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
   EmpresasRoute: EmpresasRouteWithChildren,
   ProdutosRoute: ProdutosRoute,
   SobreNosRoute: SobreNosRoute,
