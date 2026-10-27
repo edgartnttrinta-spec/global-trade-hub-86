@@ -1,1 +1,4 @@
-project_id = "leccbcxcdhhpdtocdpxj"
+project_id = "mflvcffxgzystwqkloxk"
+
+[functions.notify-quote]
+verify_jwt = false
