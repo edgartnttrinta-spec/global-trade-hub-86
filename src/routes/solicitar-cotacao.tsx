@@ -26,7 +26,7 @@ function QuotePage() {
     if (!form.reportValidity()) return;
     const data = new FormData(form);
     const selectedSlug = String(data.get("empresaMarca") || empresa || "global-trade-services");
-    const selected = companies.find(c => c.slug === selectedSlug) ?? companies[0];
+    const selected = companies.find(c => c.slug === selectedSlug) ?? companies.find(c => c.slug === "global-trade-services")!;
     const ref = "GT-" + new Date().toISOString().slice(0,10).replaceAll("-","") + "-" + Math.random().toString(36).slice(2,7).toUpperCase();
     const fields = [
       "Referência do pedido: " + ref,
