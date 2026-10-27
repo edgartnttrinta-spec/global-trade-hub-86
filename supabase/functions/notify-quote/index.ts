@@ -1,15 +1,20 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": Deno.env.get("ALLOWED_ORIGIN") ?? "https://www.globaltrade.co.mz",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Content-Type": "application/json",
-};
+function corsHeaders(origin: string | null) {
+  const configured = Deno.env.get("ALLOWED_ORIGIN") ?? "https://www.globaltrade.co.mz";
+  const allowed = new Set([configured, "https://www.globaltrade.co.mz", "https://globaltrade.co.mz", "http://localhost:5173"]);
+  return {
+    "Access-Control-Allow-Origin": origin && allowed.has(origin) ? origin : configured,
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Vary": "Origin",
+    "Content-Type": "application/json",
+  };
+}
 
-function response(body: Record<string, unknown>, status = 200) {
-  return new Response(JSON.stringify(body), { status, headers: corsHeaders });
+function response(body: Record<string, unknown>, status = 200, origin: string | null = null) {
+  return new Response(JSON.stringify(body), { status, headers: corsHeaders(origin) });
 }
 
 function clean(value: unknown, max = 500): string {
@@ -17,20 +22,20 @@ function clean(value: unknown, max = 500): string {
 }
 
 Deno.serve(async (req: Request) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
-  if (req.method !== "POST") return response({ error: "Method not allowed" }, 405);
-
   const origin = req.headers.get("origin");
+  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders(origin) });
+  if (req.method !== "POST") return response({ error: "Method not allowed" }, 405, origin);
+
   const allowedOrigin = Deno.env.get("ALLOWED_ORIGIN") ?? "https://www.globaltrade.co.mz";
-  if (origin && origin !== allowedOrigin && origin !== "https://globaltrade.co.mz" && origin !== "http://localhost:5173") {
-    return response({ error: "Origin not allowed" }, 403);
+  if (origin && origin !== allowedOrigin && origin !== "https://www.globaltrade.co.mz" && origin !== "https://globaltrade.co.mz" && origin !== "http://localhost:5173") {
+    return response({ error: "Origin not allowed" }, 403, origin);
   }
 
   let input: Record<string, unknown>;
   try {
     input = await req.json();
   } catch {
-    return response({ error: "Invalid JSON body" }, 400);
+    return response({ error: "Invalid JSON body" }, 400, origin);
   }
 
   const reference_code = clean(input.reference_code, 40);
@@ -48,12 +53,12 @@ Deno.serve(async (req: Request) => {
   const details = clean(input.details, 10000);
 
   if (!reference_code || contact_name.length < 2 || !/^\S+@\S+\.\S+$/.test(email) || phone.length < 3 || product_name.length < 2) {
-    return response({ error: "Please provide a valid contact name, email, phone and product." }, 400);
+    return response({ error: "Please provide a valid contact name, email, phone and product." }, 400, origin);
   }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-  if (!supabaseUrl || !serviceKey) return response({ error: "Server database configuration is missing." }, 500);
+  if (!supabaseUrl || !serviceKey) return response({ error: "Server database configuration is missing." }, 500, origin);
 
   const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
   const { data: saved, error: dbError } = await admin.from("quote_requests").insert({
@@ -63,9 +68,9 @@ Deno.serve(async (req: Request) => {
   }).select("id, reference_code, created_at").single();
 
   if (dbError) {
-    if (dbError.code === "23505") return response({ error: "Este pedido já foi registado. Se já submeteu, não precisa de o repetir." }, 409);
+    if (dbError.code === "23505") return response({ error: "Este pedido já foi registado. Se já submeteu, não precisa de o repetir." }, 409, origin);
     console.error("quote insert failed", dbError.code, dbError.message);
-    return response({ error: "Não foi possível guardar o pedido. Tente novamente mais tarde." }, 500);
+    return response({ error: "Não foi possível guardar o pedido. Tente novamente mais tarde." }, 500, origin);
   }
 
   const notificationEmail = Deno.env.get("QUOTE_NOTIFICATION_EMAIL") ?? "comercial@globaltrade.co.mz";
@@ -185,5 +190,5 @@ Deno.serve(async (req: Request) => {
     saved: true,
     notifications: { email: emailSent, whatsapp: whatsappSent },
     notification_pending_setup: notificationErrors,
-  }, 201);
+  }, 201, origin);
 });
