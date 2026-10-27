@@ -1,25 +1,25 @@
-import { Cpu, HardHat, IceCreamBowl, PackageSearch, Ship, Tractor, Truck, Wheat } from "lucide-react";
+import { Cpu, HardHat, IceCreamBowl, PackageSearch, Tractor, Truck, Wheat, ShieldCheck } from "lucide-react";
 
 export const companies = [
-  { slug: "global-trade-services", number: "01", name: "Global Trade & Services, Lda", short: "Global Trade", area: "Comércio, fornecimento, importação, exportação e soluções empresariais.", category: "Comércio & Procurement", accent: "trade", icon: PackageSearch, image: "logistics" },
-  { slug: "globaltech-supplies", number: "02", name: "GlobalTech Supplies", short: "GlobalTech", area: "Tecnologia, equipamentos e soluções profissionais.", category: "Tecnologia", accent: "tech", icon: Cpu, image: "technology" },
-  { slug: "global-agro-tractor-supplies", number: "03", name: "Global Agro Tractor Supplies", short: "Global Agro", area: "Tratores, máquinas, implementos e soluções agrícolas.", category: "Agricultura", accent: "agro", icon: Tractor, image: "agriculture" },
-  { slug: "global-safety", number: "04", name: "Global Safety", short: "Global Safety", area: "Equipamentos de proteção individual e segurança para ambientes de trabalho.", category: "Segurança", accent: "safety", icon: HardHat, image: "technology" },
-  { slug: "global-express-go", number: "05", name: "Global Express GO", short: "Express GO", area: "Logística, transporte, entregas, importação e exportação.", category: "Logística", accent: "express", icon: Ship, image: "logistics" },
-  { slug: "crystal-ice", number: "06", name: "Crystal Ice", short: "Crystal Ice", area: "Produção, fornecimento e distribuição de gelo.", category: "Produção & Distribuição", accent: "ice", icon: IceCreamBowl, image: "technology" },
-  { slug: "ponto-das-aves", number: "07", name: "Ponto das Aves", short: "Ponto das Aves", area: "Avicultura e soluções para aves e produção avícola.", category: "Avicultura", accent: "birds", icon: Wheat, image: "agriculture" },
-  { slug: "global-auto-mobility", number: "08", name: "Global Auto Mobility", short: "Auto Mobility", area: "Automóveis, mobilidade, importação e soluções automotivas.", category: "Mobilidade", accent: "auto", icon: Truck, image: "logistics" },
+  { slug: "global-trade-services", number: "01", name: "Global Trade & Services, Lda", short: "Global Trade & Services", area: "Comércio, importação, fornecimento de produtos e equipamentos e soluções empresariais.", category: "Comércio & Fornecimento", accent: "trade", icon: PackageSearch, image: "logistics", email: "geral@globaltrade.co.mz", commercialEmail: "comercial@globaltrade.co.mz", slogan: "MOVIMENTAMOS NEGÓCIOS, CONECTAMOS SOLUÇÕES" },
+  { slug: "globaltech-supplies", number: "02", name: "GlobalTech Supplies", short: "GlobalTech Supplies", area: "Tecnologia, informática, equipamentos electrónicos e soluções profissionais.", category: "Tecnologia", accent: "tech", icon: Cpu, image: "technology", email: "tech@globaltrade.co.mz", slogan: "Tecnologia e soluções profissionais" },
+  { slug: "global-agro-tractor-supplies", number: "03", name: "Global Agro Tractor Supplies", short: "Global Agro", area: "Tractores, máquinas, implementos e equipamentos de apoio à produção agrícola.", category: "Agricultura", accent: "agro", icon: Tractor, image: "agriculture", email: "agro@globaltrade.co.mz", slogan: "POWERING A STRONGER TOMORROW" },
+  { slug: "global-safety", number: "04", name: "Global Safety", short: "Global Safety", area: "Equipamentos de protecção individual e materiais de segurança para ambientes de trabalho.", category: "Segurança", accent: "safety", icon: HardHat, image: "technology", email: "safety@globaltrade.co.mz", slogan: "PROTEGENDO HOJE, GARANTINDO O AMANHÃ" },
+  { slug: "global-express-go", number: "05", name: "Global Express GO", short: "Global Express GO", area: "Soluções de logística, transporte, recolha, distribuição e entregas.", category: "Logística", accent: "express", icon: Truck, image: "logistics", email: "express@globaltrade.co.mz", slogan: "LOGÍSTICA E ENTREGAS EXPRESSAS" },
+  { slug: "crystal-ice", number: "06", name: "Crystal Ice", short: "Crystal Ice", area: "Produção e fornecimento de gelo para consultas comerciais, empresas e eventos.", category: "Gelo", accent: "ice", icon: IceCreamBowl, image: "technology", email: "crystalice@globaltrade.co.mz", slogan: "Gelo Cristalino de Qualidade Superior" },
+  { slug: "ponto-das-aves", number: "07", name: "Ponto das Aves", short: "Ponto das Aves", area: "Avicultura, comercialização e fornecimento de aves mediante confirmação de disponibilidade.", category: "Avicultura", accent: "birds", icon: Wheat, image: "agriculture", email: "pontodasaves@globaltrade.co.mz", slogan: "Qualidade que você confia" },
+  { slug: "global-auto-mobility", number: "08", name: "Global Auto Mobility", short: "Global Auto Mobility", area: "Importação, venda, aluguer de viaturas e soluções de mobilidade.", category: "Mobilidade", accent: "auto", icon: ShieldCheck, image: "logistics", email: "auto@globaltrade.co.mz", slogan: "Importação • Venda • Aluguer • Mobilidade" },
 ] as const;
 
 export const companyCategories: Record<string, string[]> = {
-  "global-trade-services": ["Comércio e fornecimento", "Importação e exportação", "Procurement", "Sourcing", "Equipamentos", "Soluções empresariais"],
-  "globaltech-supplies": ["Computadores", "Laptops", "Monitores", "Impressoras", "Redes", "Telecomunicações", "Videoconferência", "Energia e UPS", "Infraestrutura tecnológica"],
-  "global-agro-tractor-supplies": ["Tratores", "Máquinas agrícolas", "Implementos agrícolas", "Pulverizadores", "Semeadoras", "Charruas", "Grades", "Peças e acessórios"],
-  "global-safety": ["Capacetes", "Óculos de proteção", "Proteção auditiva", "Proteção respiratória", "Luvas", "Calçado de segurança", "Vestuário de proteção", "Sinalização"],
-  "global-express-go": ["Transporte", "Logística", "Entregas", "Carga", "Importação", "Exportação", "Distribuição", "Soluções logísticas empresariais"],
-  "crystal-ice": ["Gelo", "Produtos de gelo", "Fornecimento", "Distribuição"],
-  "ponto-das-aves": ["Aves", "Produtos avícolas", "Equipamentos", "Alimentação", "Soluções para produção avícola"],
-  "global-auto-mobility": ["Automóveis", "SUVs", "Pick-ups", "Veículos comerciais", "Veículos para empresas", "Peças", "Acessórios", "Serviços automotivos"],
+  "global-trade-services": ["Comércio e fornecimento", "Importação e sourcing", "Equipamentos empresariais", "Procurement", "Pedidos de cotação", "Soluções empresariais"],
+  "globaltech-supplies": ["Computadores portáteis", "Computadores de secretária", "Monitores", "Impressoras e scanners", "Telemóveis e tablets", "Acessórios informáticos", "Equipamentos de rede", "Armazenamento de dados", "Equipamentos audiovisuais", "Drones", "Consumíveis e periféricos"],
+  "global-agro-tractor-supplies": ["Tractores agrícolas", "Alfaias e implementos agrícolas", "Charruas", "Grades agrícolas", "Reboques agrícolas", "Pulverizadores", "Semeadoras", "Preparação do solo", "Irrigação", "Peças e acessórios"],
+  "global-safety": ["Capacetes de segurança", "Botas de protecção", "Luvas industriais", "Óculos de protecção", "Protectores auditivos", "Máscaras e protecção respiratória", "Vestuário de protecção", "Coletes reflectores", "Sinalização", "Protecção contra quedas"],
+  "global-express-go": ["Transporte de mercadorias", "Entregas expressas", "Distribuição de encomendas", "Recolha e entrega", "Apoio logístico", "Coordenação de transporte", "Soluções logísticas para empresas"],
+  "crystal-ice": ["Gelo", "Pedidos de fornecimento", "Consultas de quantidades", "Fornecimento para empresas", "Fornecimento para eventos"],
+  "ponto-das-aves": ["Frangos", "Aves para comercialização", "Fornecimento de aves", "Soluções para revendedores", "Consulta de disponibilidade"],
+  "global-auto-mobility": ["Viaturas ligeiras", "SUVs", "Pick-ups", "Viaturas comerciais", "Viaturas para empresas", "Importação de viaturas", "Venda de viaturas", "Aluguer de viaturas"],
 };
 
-export const solutions = ["Comércio e Fornecimento", "Tecnologia", "Agricultura", "Segurança", "Logística", "Energia", "Importação e Exportação", "Procurement"];
+export const solutions = ["Comércio e fornecimento", "Tecnologia e informática", "Agricultura e mecanização", "Segurança e protecção", "Logística e transporte", "Gelo e fornecimento", "Avicultura", "Viaturas e mobilidade", "Importação e sourcing"];
