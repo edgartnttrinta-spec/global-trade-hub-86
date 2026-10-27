@@ -12,7 +12,7 @@ export const companies = [
 ] as const;
 
 export const companyCategories: Record<string, string[]> = {
-  "global-trade-services": ["Comércio e fornecimento", "Importação e sourcing", "Equipamentos empresariais", "Procurement", "Pedidos de cotação", "Soluções empresariais"],
+  "global-trade-services": ["Comércio e fornecimento", "Importação e sourcing", "Equipamentos industriais", "Materiais técnicos", "Equipamentos de escritório", "Máquinas e peças de reposição", "Equipamentos e consumíveis empresariais", "Procurement", "Pedidos de cotação", "Soluções empresariais"],
   "globaltech-supplies": ["Computadores portáteis", "Computadores de secretária", "Monitores", "Impressoras e scanners", "Telemóveis e tablets", "Acessórios informáticos", "Equipamentos de rede", "Armazenamento de dados", "Equipamentos audiovisuais", "Drones", "Consumíveis e periféricos"],
   "global-agro-tractor-supplies": ["Tractores agrícolas", "Alfaias e implementos agrícolas", "Charruas", "Grades agrícolas", "Reboques agrícolas", "Pulverizadores", "Semeadoras", "Preparação do solo", "Irrigação", "Peças e acessórios"],
   "global-safety": ["Capacetes de segurança", "Botas de protecção", "Luvas industriais", "Óculos de protecção", "Protectores auditivos", "Máscaras e protecção respiratória", "Vestuário de protecção", "Coletes reflectores", "Sinalização", "Protecção contra quedas"],
