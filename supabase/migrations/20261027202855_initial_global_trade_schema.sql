@@ -87,9 +87,16 @@ revoke all on public.products from anon, authenticated;
 grant select on public.products to anon, authenticated;
 grant insert, update, delete on public.products to authenticated;
 drop policy if exists "Visitors can read published products" on public.products;
-create policy "Visitors can read published products" on public.products for select to anon, authenticated using (is_published = true);
+create policy "Visitors can read published products" on public.products for select to anon using (is_published = true);
 drop policy if exists "Admins can manage products" on public.products;
-create policy "Admins can manage products" on public.products for all to authenticated using (exists (select 1 from public.admin_users a where a.user_id = (select auth.uid()))) with check (exists (select 1 from public.admin_users a where a.user_id = (select auth.uid())));
+drop policy if exists "Admins can read or manage products" on public.products;
+create policy "Admins can read or manage products" on public.products for select to authenticated using (exists (select 1 from public.admin_users a where a.user_id = (select auth.uid())));
+drop policy if exists "Admins can insert products" on public.products;
+create policy "Admins can insert products" on public.products for insert to authenticated with check (exists (select 1 from public.admin_users a where a.user_id = (select auth.uid())));
+drop policy if exists "Admins can update products" on public.products;
+create policy "Admins can update products" on public.products for update to authenticated using (exists (select 1 from public.admin_users a where a.user_id = (select auth.uid()))) with check (exists (select 1 from public.admin_users a where a.user_id = (select auth.uid())));
+drop policy if exists "Admins can delete products" on public.products;
+create policy "Admins can delete products" on public.products for delete to authenticated using (exists (select 1 from public.admin_users a where a.user_id = (select auth.uid())));
 
 create index if not exists admin_users_created_by_idx on public.admin_users (created_by);
 create index if not exists contact_messages_created_at_idx on public.contact_messages (created_at desc);
