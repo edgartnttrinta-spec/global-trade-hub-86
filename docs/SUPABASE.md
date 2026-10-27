@@ -35,3 +35,18 @@ The initial schema is tracked at `supabase/migrations/20261027195937_initial_glo
 - Public quote form persistence is being connected in the website code.
 - Contact form persistence, admin UI, outbound email provider, rate limiting and production file-upload workflow remain follow-up tasks.
 - Database writes do not by themselves send email notifications.
+
+
+## Configure the first administrator
+1. In the Supabase Dashboard, open Authentication and create the intended administrator account.
+2. Confirm the account email as required by the project's Auth settings.
+3. Copy that account's exact Auth user UUID.
+4. In the SQL Editor, run the following statement after replacing the UUID with the real Auth user UUID:
+
+```sql
+insert into public.admin_users (user_id)
+values ('REPLACE-WITH-AUTH-USER-UUID'::uuid)
+on conflict (user_id) do nothing;
+```
+
+Do not insert a guessed UUID or expose admin access through public sign-up. The admin table intentionally has no public insert policy.
