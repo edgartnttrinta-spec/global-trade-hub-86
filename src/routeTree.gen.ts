@@ -69,8 +69,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contactos': typeof ContactosRoute
   '/privacidade': typeof PrivacidadeRoute
-  '/privacidade': typeof PrivacidadeRoute
-  '/privacidade': typeof PrivacidadeRoute
   '/empresas': typeof EmpresasRouteWithChildren
   '/produtos': typeof ProdutosRoute
   '/sobre-nos': typeof SobreNosRoute
@@ -81,6 +79,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contactos': typeof ContactosRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/empresas': typeof EmpresasRouteWithChildren
   '/produtos': typeof ProdutosRoute
   '/sobre-nos': typeof SobreNosRoute
@@ -92,6 +91,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contactos': typeof ContactosRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/empresas': typeof EmpresasRouteWithChildren
   '/produtos': typeof ProdutosRoute
   '/sobre-nos': typeof SobreNosRoute
@@ -115,6 +115,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contactos'
+    | '/privacidade'
     | '/empresas'
     | '/produtos'
     | '/sobre-nos'
@@ -125,6 +126,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contactos'
+    | '/privacidade'
     | '/empresas'
     | '/produtos'
     | '/sobre-nos'
